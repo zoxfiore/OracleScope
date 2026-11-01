@@ -5,6 +5,7 @@ const LINKS = [
   { href: '#about', label: 'About' },
   { href: '#requirements', label: 'Requirements' },
   { href: '#setup', label: 'Setup' },
+  { href: '#inspector', label: 'SQL Inspector' },
   { href: '#data', label: 'Data sources' },
   { href: '#privacy', label: 'Privacy' },
 ]

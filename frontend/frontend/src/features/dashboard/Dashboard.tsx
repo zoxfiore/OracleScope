@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navbar } from '../../components/Navbar.tsx'
 import { closeConnection } from '../connections/api.ts'
+import { InspectorPage } from '../inspector/InspectorPage.tsx'
 import type { StoredConnection } from '../connections/storage.ts'
 import { ConnectionLostError, fetchOverview } from './api.ts'
 import { ArchitectureGraph } from './ArchitectureGraph.tsx'
@@ -63,6 +64,7 @@ export function Dashboard({
   connection: StoredConnection
   onDisconnected: (notice?: string) => void
 }) {
+  const [view, setView] = useState<'architecture' | 'sql'>('architecture')
   const [overview, setOverview] = useState<Overview | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(true)
@@ -133,26 +135,48 @@ export function Dashboard({
   return (
     <>
       <Navbar>
+        <nav className="tabs" aria-label="Views">
+          <button
+            type="button"
+            className={view === 'architecture' ? 'is-active' : undefined}
+            onClick={() => setView('architecture')}
+          >
+            Architecture
+          </button>
+          <button
+            type="button"
+            className={view === 'sql' ? 'is-active' : undefined}
+            onClick={() => setView('sql')}
+          >
+            SQL Inspector
+          </button>
+        </nav>
         <span className="connection-status">
           <span className="connection-dot" aria-hidden="true" />
           <span>
             {connection.username} @ <code>{connection.target}</code>
           </span>
         </span>
-        <button
-          type="button"
-          className="nav-button nav-button-primary"
-          onClick={handleRefresh}
-          disabled={refreshing}
-        >
-          {refreshing ? 'Refreshing…' : 'Refresh'}
-        </button>
+        {view === 'architecture' && (
+          <button
+            type="button"
+            className="nav-button nav-button-primary"
+            onClick={handleRefresh}
+            disabled={refreshing}
+          >
+            {refreshing ? 'Refreshing…' : 'Refresh'}
+          </button>
+        )}
         <button type="button" className="nav-button" onClick={handleDisconnect}>
           Disconnect
         </button>
       </Navbar>
 
-      <main className="dashboard">
+      {view === 'sql' && (
+        <InspectorPage connectionId={connection.id} onConnectionLost={onDisconnected} />
+      )}
+
+      <main className="dashboard" hidden={view === 'sql'}>
         {error && (
           <div className="form-error" role="alert">
             <strong>Could not refresh the data.</strong>
@@ -162,7 +186,7 @@ export function Dashboard({
 
         {!overview && !error && <p className="dashboard-loading">Reading from Oracle…</p>}
 
-        {overview && selected && (
+        {view === 'architecture' && overview && selected && (
           <>
             <SummaryCards overview={overview} sessionChange={sessionChange} />
             <div className="dashboard-heading">

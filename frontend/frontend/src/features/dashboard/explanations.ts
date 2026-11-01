@@ -14,7 +14,7 @@ export const EXPLAIN = {
   sessions:
     'A session is the state Oracle keeps for one logged-in connection. A session is active while it is running a statement.',
   userSessions:
-    'These sessions belong to connected clients. The count includes OracleScope’s own connection, which is active while it runs this query.',
+    'These sessions belong to connected clients. The count includes OracleScope’s own two connections: one reads this dashboard and one runs the SQL Inspector.',
   backgroundSessions: 'Oracle’s own background processes also have sessions.',
   container:
     'A container database holds several containers that share one instance. Each has its own tablespaces and data files.',

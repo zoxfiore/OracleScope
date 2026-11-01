@@ -20,3 +20,14 @@ export function formatExactBytes(bytes: number) {
 export function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString()
 }
+
+export function formatNumber(value: number | null | undefined) {
+  return value === null || value === undefined ? '–' : value.toLocaleString('en-US')
+}
+
+export function formatDuration(microseconds: number | null | undefined) {
+  if (microseconds === null || microseconds === undefined) return '–'
+  if (microseconds < 1000) return `${microseconds} µs`
+  if (microseconds < 1_000_000) return `${(microseconds / 1000).toFixed(1)} ms`
+  return `${(microseconds / 1_000_000).toFixed(2)} s`
+}

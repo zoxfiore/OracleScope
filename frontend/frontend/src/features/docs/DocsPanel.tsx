@@ -1,8 +1,19 @@
-import { useState } from 'react'
+import { CodeBlock } from '../../components/CodeBlock.tsx'
 
 const CREATE_USER_SQL = `CREATE USER c##oraclescope IDENTIFIED BY "choose_a_password";
 GRANT CREATE SESSION, SELECT_CATALOG_ROLE TO c##oraclescope CONTAINER=ALL;
 ALTER USER c##oraclescope SET CONTAINER_DATA=ALL CONTAINER=CURRENT;`
+
+const DEMO_TABLE_SQL = `CREATE TABLE system.scope_orders TABLESPACE users AS
+SELECT level AS order_id,
+       MOD(level, 5000) AS customer_id,
+       ROUND(DBMS_RANDOM.VALUE(1, 1000), 2) AS amount,
+       SYSDATE - MOD(level, 365) AS order_date,
+       RPAD('x', 100, 'x') AS notes
+FROM dual
+CONNECT BY level <= 500000;
+
+EXEC DBMS_STATS.GATHER_TABLE_STATS('SYSTEM', 'SCOPE_ORDERS');`
 
 const DATA_SOURCES = [
   ['Database and instance', 'V$DATABASE, V$INSTANCE'],
@@ -10,29 +21,10 @@ const DATA_SOURCES = [
   ['SGA memory', 'V$SGAINFO'],
   ['PGA memory', 'V$PGASTAT'],
   ['Processes and sessions', 'V$PROCESS, V$SESSION'],
-  ['Tablespaces and datafiles', 'V$TABLESPACE, V$DATAFILE'],
+  ['Tablespaces and files', 'V$TABLESPACE, V$DATAFILE, V$TEMPFILE'],
+  ['Query steps and their effort', 'V$SQL_PLAN_STATISTICS_ALL'],
+  ['Query totals and waits', 'V$MYSTAT, V$SESSION_EVENT'],
 ]
-
-function CodeBlock({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false)
-
-  async function copy() {
-    await navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
-
-  return (
-    <div className="code-block">
-      <pre>
-        <code>{code}</code>
-      </pre>
-      <button type="button" onClick={copy}>
-        {copied ? 'Copied' : 'Copy'}
-      </button>
-    </div>
-  )
-}
 
 export function DocsPanel() {
   return (
@@ -103,6 +95,25 @@ export function DocsPanel() {
         <p>Enter the details in the form on this page.</p>
       </section>
 
+      <section id="inspector">
+        <h3>SQL Inspector</h3>
+        <p>
+          Run a query from the SQL Inspector tab to see the steps Oracle took, the effort of each
+          step, the process that did the work and what it waited for. Every run stays in your
+          history until the backend restarts.
+        </p>
+        <h4>Try the index demo</h4>
+        <p>
+          Create a large table in a disposable database, connected as an administrator. An account
+          other than <code>SYSTEM</code> also needs <code>SELECT</code> on it.
+        </p>
+        <CodeBlock code={DEMO_TABLE_SQL} />
+        <p>
+          Run a query on one customer, create an index on <code>customer_id</code>, then run the
+          same query again. You can then compare the plan and the buffer gets of both runs.
+        </p>
+      </section>
+
       <section id="data">
         <h3>Data sources</h3>
         <p>OracleScope reads these Oracle views:</p>
@@ -146,8 +157,8 @@ export function DocsPanel() {
         <h3>Privacy and safety</h3>
         <ul className="plain-list">
           <li>Your browser only talks to the OracleScope backend, never directly to Oracle.</li>
-          <li>Your password is used to open the connection. It isn&apos;t saved to disk.</li>
-          <li>OracleScope only reads from these views and never changes your database.</li>
+          <li>Your password is used to open two sessions: one for the dashboard and one for the SQL Inspector. It isn&apos;t saved.</li>
+          <li>The dashboard only reads from these views, and the SQL Inspector only runs SELECT queries in a read-only transaction.</li>
           <li>The base views listed here don&apos;t need the Diagnostics or Tuning Packs.</li>
         </ul>
       </section>
