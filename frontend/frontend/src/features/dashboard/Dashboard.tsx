@@ -150,6 +150,7 @@ export function Dashboard({
           >
             SQL Inspector
           </button>
+          <a href="#/presentation">Presentation</a>
         </nav>
         <span className="connection-status">
           <span className="connection-dot" aria-hidden="true" />

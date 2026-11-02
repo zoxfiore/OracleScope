@@ -554,6 +554,21 @@ code {
   color: var(--red);
 }
 
+.tabs a {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.tabs a:hover {
+  color: var(--red);
+}
+
 .tabs button.is-active {
   font-weight: 600;
   color: var(--red-dark);
@@ -1285,6 +1300,244 @@ main[hidden] {
   }
 }
 
+/* Presentation */
+.presentation-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.presentation-nav {
+  display: flex;
+  gap: 4px 16px;
+  margin-right: auto;
+  overflow-x: auto;
+}
+
+.presentation-nav a {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.presentation-nav a:hover {
+  color: var(--red);
+}
+
+.navbar > .nav-button[href] {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.presentation {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 32px 96px;
+}
+
+.presentation-cover {
+  padding: 32px 0 24px;
+  border-bottom: 3px solid var(--red);
+}
+
+.presentation-cover h1 {
+  margin: 0;
+  font-size: 44px;
+  letter-spacing: -0.03em;
+  color: var(--red);
+}
+
+.presentation-cover p:last-child {
+  margin: 6px 0 0;
+  font-size: 19px;
+  color: var(--muted);
+}
+
+.slide {
+  padding: 36px 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: calc(var(--nav-height) + 8px);
+}
+
+.slide-number {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--red);
+}
+
+.slide h2 {
+  margin: 2px 0 16px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.slide h3 {
+  margin: 22px 0 8px;
+  font-size: 17px;
+}
+
+.say {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  background: var(--red-tint);
+  border-left: 4px solid var(--red);
+  border-radius: 0 8px 8px 0;
+}
+
+.say > span {
+  flex-shrink: 0;
+  padding-top: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.say p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.points {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.points li,
+.steps li {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.steps {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.flow > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 180px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1.5px solid var(--red);
+  border-radius: 8px;
+}
+
+.flow > div span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.flow-arrow {
+  font-size: 22px;
+  color: var(--red);
+}
+
+.tree {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #f7f3f1;
+  background: #231e1b;
+  border-radius: 8px;
+}
+
+.tips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tips > div {
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.tips strong {
+  font-size: 13px;
+  color: var(--red-dark);
+}
+
+.tips p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.analogy {
+  margin-top: 16px;
+  padding: 12px 16px;
+  font-size: 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.slide-note {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.result-compare td:first-child {
+  font-weight: 600;
+}
+
+.label-calculated-big {
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.presentation .labels .label {
+  flex-basis: 96px;
+}
+
+.questions details {
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.questions details[open] {
+  border-color: var(--red);
+}
+
+.questions summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.questions details p {
+  margin: 8px 0 0;
+  line-height: 1.55;
+}
+
 /* Below this width the two halves stack */
 @media (max-width: 900px) {
   .navbar {
@@ -1365,6 +1618,35 @@ main[hidden] {
 
   .split {
     grid-template-columns: 1fr;
+  }
+
+  .presentation-nav {
+    display: none;
+  }
+
+  .navbar > .presentation-link {
+    margin-left: auto;
+  }
+
+  .navbar > .presentation-link + .local-badge {
+    display: none;
+  }
+
+  .presentation {
+    padding: 16px 16px 64px;
+  }
+
+  .presentation-cover h1 {
+    font-size: 34px;
+  }
+
+  .tips {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .say {
+    flex-direction: column;
+    gap: 4px;
   }
 
   .split-form {

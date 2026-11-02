@@ -20,6 +20,9 @@ export function LandingLinks() {
           </a>
         ))}
       </nav>
+      <a href="#/presentation" className="nav-button presentation-link">
+        Presentation
+      </a>
       <span className="local-badge">
         <span className="local-badge-dot" aria-hidden="true" />
         Runs locally
